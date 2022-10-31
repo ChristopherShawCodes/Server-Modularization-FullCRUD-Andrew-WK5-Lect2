@@ -40,111 +40,170 @@ Server.js
 
 mongoose.config.js 
 
-`const mongoose = require('mongoose')
-const db = 'testdb3'
+    `const mongoose = require('mongoose')
+
+    const db = 'testdb3'
 
 
-mongoose.connect(`mongodb://localhost/${db}`,{
+    mongoose.connect(`mongodb://localhost/${db}`,{
+    
     useNewUrlParser: true,
+    
     useUnifiedTopology: true
-}).then((res) =>{
+    
+    }).then((res) =>{
+
     console.log(`Successfully connected to Database: ${db}`)
-}).catch((err) =>{
+    
+    }).catch((err) =>{
+
     console.log(`Unable to connect to database: ${db}`)
-})`
+    
+    })`
 
 
 ----------------------------------------------
 
 user.routes.js
 
-`const UserController = require('../controllers/user.controllers')
+    `const UserController = require('../controllers/user.controllers')
 
-module.exports = (app) =>{
+    module.exports = (app) =>{
+    
     app.post('/api/addUser', UserController.addUser)
-    app.get('/api/getAllUsers', UserController.getAllUsers )
-    app.get('/api/findById/:id', UserController.findById )
+    
+    app.get('/api/getAllUsers', UserController.getAllUsers)
+    
+    app.get('/api/findById/:id', UserController.findById)
+    
     app.put('/api/update/:id' , UserController.updateById)
+    
     app.delete('/api/delete/:id' ,UserController.deleteById)
-}`
+    
+    }`
 
 ----------------------------------------------
 
 user.model.js
 
-`const mongoose = require('mongoose')
+    `const mongoose = require('mongoose')
 
 // create a new schema or blueprint
-const UserSchema = new mongoose.Schema({
+
+    const UserSchema = new mongoose.Schema({
+    
     name: String,
+    
     age: Number,
+    
     developer: Boolean
-})
+    
+    })
 
 
 //create a new model/collection in database
-const User = mongoose.model('User', UserSchema)
+
+    const User = mongoose.model('User', UserSchema)
 
 
 //export for use elsewhere
-module.exports = User`
+
+    module.exports = User`
 
 ----------------------------------------------
 
 user.controllers.js
 
-`const userRoutes = require("../routes/user.routes")
-const User = require('../models/user.model')
+    `const userRoutes = require("../routes/user.routes")
+    
+    const User = require('../models/user.model')
 
 
-const addUser = (req,res) =>{
+    const addUser = (req,res) =>{
+    
     User.create(req.body)
+    
     .then((result) =>{
+    
         res.json(result)
+        
     }).catch((err) =>{
+    
         console.log(err)
+        
     })
-}
+    
+    }
 
-const getAllUsers = (req,res) =>{
+    const getAllUsers = (req,res) =>{
+    
     User.find()
+    
     .then((result) =>{
+    
         res.json(result)
+        
     }).catch(err => console.log(err))
-}
+    
+    }
 
 
-const findById = (req,res) =>{
+    const findById = (req,res) =>{
+    
     User.findOne({_id:req.params.id})
+    
     .then((result) =>{
+    
         res.json(result)
+        
     }).catch((err) =>{
+    
         console.log(err)
+        
     })
-}
+    
+    }
 
 
-const updateById = (req,res) =>{
+    const updateById = (req,res) =>{
+    
     User.updateOne({_id:req.params.id}, req.body)
+    
     .then((result)=>{
+    
         res.json(result)
+        
     }).catch(err => console.log(err))
-}
+    
+    }
 
 
-const deleteById = (req,res) =>{
+    const deleteById = (req,res) =>{
+    
     User.deleteOne({_id:req.params.id})
+    
     .then((result) =>{
+    
         res.json(result)
+        
     }).catch((err) =>{
+    
         console.log(err)
+        
     })
-}
+    
+    }
 
-module.exports = {
+    module.exports = {
+    
     addUser,
+    
     getAllUsers,
+    
     findById,
+    
     updateById,
+    
     deleteById
-}`
+    
+    }`
